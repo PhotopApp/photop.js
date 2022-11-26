@@ -1,5 +1,5 @@
 <div allign="center">
-    <img src="docs/images/banner.png" style="border-radius: 30px;height: 400px;">
+    <img src="docs/images/banner.png" style="height: 400px;">
 </div>
 
 # About
@@ -13,7 +13,7 @@ Run this in your command line to install Photop.js
 
 To login to your bot account
 
-```
+```js
 const Photop = require('photop.js');
 
 const client = new Photop.client('token', () => {
@@ -28,13 +28,12 @@ You can acquire your token by running
 In the console on photop.
 
 **!!Be very careful with what you do with your token, if someone bad gets a hand of your token your photop account can be hacked!!**
-
 <br><br>
 # Demo
 
 Here is a simple bot that replies to posts that mention it.
 
-```
+```js
 const Photop = require('photop.js');
 
 const client = new Photop.client('token', () => {
@@ -46,4 +45,4 @@ const client = new Photop.client('token', () => {
 
 # Credits
 
-Original [photopjs](https://www.npmjs.com/package/photopjs) by [IMPixel](https://impixel.tech)
+Original version of [photopjs](https://www.npmjs.com/package/photopjs) by [IMPixel](https://impixel.tech)
