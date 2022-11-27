@@ -2,8 +2,6 @@
     <img src="docs/images/banner.png" style="height: 400px;">
 </div>
 
-[![Documentation Status](https://readthedocs.org/projects/photopjs/badge/?version=latest)](https://photopjs.readthedocs.io/en/latest/?badge=latest)
-
 # About
 Photop.js is a library that allows you to easily interact with Photop's Rest API
 <br><br>
