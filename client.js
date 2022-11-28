@@ -53,7 +53,7 @@ class client {
             promise.then(callback);
         }
     }
-    onPost(callback, groupid) {
+    onPost(callback) {
         socket.subscribe({
             task: 'general',
             location: 'home'
@@ -101,15 +101,18 @@ class client {
         return new Post({ _id: await response.data });
     }
     joinGroup(inviteid) {
-        request(`groups/join?${code.length == 8 ? 'code' : 'groupid'}=${code}`, 'PUT', activeClient.auth);
+        return new Group(request(`groups/join?${code.length == 8 ? 'code' : 'groupid'}=${code}`, 'PUT', activeClient.auth));
     }
-    async createGroup(name, privacy = 'member' /*other option is owner*/, image){
+    getGroupById(id) {
+        return new Group(id);
+    }
+    async createGroup(name, privacy = 'member' /*other option is owner*/, image) {
         let body = new FormData();
         body.append('data', JSON.stringify({
             name: name,
             invite: privacy
         }));
-        if(image){
+        if (image) {
             body.append("image", image, "image.jpg")
         }
         const response = await axios.post(serverURL + 'groups/new', body, {
@@ -118,7 +121,7 @@ class client {
                 'auth': this.auth
             }
         }).catch(err => { console.log(err.response.status, err.response.data) });
-        return new Group({ _id: await response.data });
+        return new Group(response.data);
     }
 }
 
@@ -145,7 +148,7 @@ class Post {
     }
     onChat(callback) {
         chatListeners[this.post._id] = callback;
-        request(`chats/connect${this.groupid ? `?groupid=${this.groupid}` : ''}`, 'POST', activeClient.auth, {
+        request(`chats/connect${this.post.GroupID ? `?groupid=${this.post.GroupID}` : ''}`, 'POST', activeClient.auth, {
             ssid: socket.secureID,
             connect: Object.keys(chatListeners)
         });
@@ -315,23 +318,66 @@ class Chat {
 }
 
 class Group {
-    constructor(group) {
-        this._id = group._id;
+    constructor(id) {
+        this._id = id
     }
     leave() {
         request(`groups/leave?groupid=${this._id}`, 'DELETE', activeClient.auth);
     }
-    invite(type, data) {
-        request(`groups/invite?groupid=${this._id}`, 'POST', activeClient.auth, {
+    async invite(type, data) {
+        return await request(`groups/invite?groupid=${this._id}`, 'POST', activeClient.auth, {
             type: type,
             data: data
         });
     }
-    async members() {
-
+    async members(amount, before, after) {
+        return await request(`groups/members?groupid=${this._id}${amount ? `&amount=${amount}` : ''}${before ? `&before=${before}` : ''}${after ? `&after=${after}` : ''}`, 'GET', activeClient.auth);
     }
     revoke(invite) {
         request(`groups/revoke?inviteid=${invite}`, 'DELETE', activeClient.auth);
+    }
+    async getInvites(type, amount, before, after) {
+        return await request(`groups/invites?groupid=${this._id}&type=${type}${amount ? `&amount=${amount}` : ''}${before ? `&before=${before}` : ''}${after ? `&after=${after}` : ''}`, 'GET', activeClient.auth);
+    }
+    edit(name, invite) {
+        let body = new FormData();
+        body.append('data', JSON.stringify({
+            name: name,
+            invite: invite
+        }));
+    }
+    async createPost(text, media = []) {
+        let body = new FormData();
+        body.append('data', JSON.stringify({
+            text: text
+        }));
+        for (let i = 0; i != Math.min(media.length, 2); i++) {
+            body.append("image-" + i, media[i], "image.jpg")
+        }
+        const response = await axios.post(serverURL + `posts/new?groupid=${this._id}`, body, {
+            headers: {
+                'Content-Type': `multipart/form-data; boundary=${body._boundary}`,
+                'auth': activeClient.auth
+            }
+        }).catch(err => { console.log(err.response.status, err.response.data) });
+        return new Post({ _id: await response.data });
+    }
+    onPost(callback){
+        socket.subscribe({
+            task: "general",
+            location: "home",
+            groups:[this._id]
+        }, data => {
+            callback(new Post(data.post));
+        })
+    }
+    onEvent(callback) {
+        socket.subscribe({
+            task: 'group',
+            groupID: this._id
+        }, data => {
+            callback(new Post(data.post));
+        })
     }
 }
 
