@@ -48,3 +48,5 @@ const client = new Photop.client('token', () => {
 # Credits
 
 Original version of [photopjs](https://www.npmjs.com/package/photopjs) by [IMPixel](https://impixel.tech)
+
+Documentation by [Audomations (or symph)](https://github.com/Audomations)
