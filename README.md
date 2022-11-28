@@ -2,7 +2,7 @@
     <img src="docs/images/banner.png" style="height: 400px;">
 </div>
 
-![https://raster.shields.io/badge/Status-BETA-orange.png]()
+![](https://raster.shields.io/badge/Status-BETA-orange.png)
 
 # About
 Photop.js is a library that allows you to easily interact with Photop's Rest API
