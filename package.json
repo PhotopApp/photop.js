@@ -2,7 +2,7 @@
   "name": "photop.js",
   "version": "1.0.1",
   "description": "Library to easily interact with the photop rest API",
-  "main": "./src/client.js",
+  "main": "client.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
