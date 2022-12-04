@@ -1,6 +1,6 @@
 {
   "name": "photop.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Library to easily interact with the photop rest API",
   "main": "./src/client.js",
   "scripts": {
