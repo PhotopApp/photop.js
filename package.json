@@ -1,11 +1,18 @@
 {
-  "name": "azurejs",
+  "name": "photop.js",
   "version": "1.0.0",
   "description": "Library to easily interact with the photop rest API",
-  "main": "client.js",
+  "main": "./src/client.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": "https://github.com/PhotopApp/photop.js",
   "author": "",
+  "keywords": [
+    "photop",
+    "bot",
+    "api",
+    "rest"
+  ],
   "license": "ISC"
 }
