@@ -23,14 +23,6 @@ const client = new Photop.client('token', () => {
 });
 ```
 
-You can acquire your token by running
-
-`userID + ";" + JSON.parse(localStorage.getItem('token')).token`
-
-In the console on photop.
-
-**!!Be very careful with what you do with your token, if someone bad gets a hand of your token your photop account can be hacked!!**
-<br><br>
 # Demo
 
 Here is a simple bot that replies to posts that mention it.
