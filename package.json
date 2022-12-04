@@ -1,10 +1,15 @@
 {
   "name": "photop.js",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Library to easily interact with the photop rest API",
   "main": "client.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "simple-socket-js": "latest",
+    "axios": "latest",
+    "form-data": "latest"
   },
   "repository": "https://github.com/PhotopApp/photop.js",
   "author": "",
